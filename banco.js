@@ -24,9 +24,16 @@ async function criarTabela() {
     await banco.exec(tabela) 
 }
 
-async function inserir() {
+async function inserir(aluno) {
+    const {uuid, nome, email} = aluno;
     const banco = await sqlConnection();
-    await banco.run("INSERT INTO alunos (uuid, nome, email) values ('20230075', 'Alan', 'as38@aluno.ifal.edu.br')")
+    await banco.run("INSERT INTO alunos (uuid, nome, email) values (?, ?, ?)", uuid, nome, email)
 }
 
-inserir()
+const aluno = {
+    uuid: "1234",
+    nome: "Walker",
+    email: "WalkerBeek@email.com"
+}
+
+inserir(aluno)
