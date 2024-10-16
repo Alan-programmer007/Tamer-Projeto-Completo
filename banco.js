@@ -30,10 +30,30 @@ async function inserir(aluno) {
     await banco.run("INSERT INTO alunos (uuid, nome, email) values (?, ?, ?)", uuid, nome, email)
 }
 
+async function remover(id) {
+    const banco = await sqlConnection();
+    await banco.run("DELETE FROM alunos WHERE id = ?", id)
+}
+
+async function atualizar(aluno) {
+    const {uuid, nome, email, id} = aluno;
+    const banco = await sqlConnection();
+    await banco.run("UPDATE alunos SET uuid = ?, nome = ?, email = ? WHERE id = ?", uuid, nome, email, id )
+}
+
+async function listar() {
+    const banco = await sqlConnection();
+    const result = await banco.all("SELECT * FROM alunos")
+    console.log(result)
+
+    return result
+}
+
 const aluno = {
+    id : 4,
     uuid: "1234",
-    nome: "Walker",
+    nome: "safado",
     email: "WalkerBeek@email.com"
 }
 
-inserir(aluno)
+listar()
