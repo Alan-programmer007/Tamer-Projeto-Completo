@@ -44,9 +44,9 @@ class Banco{
     }
 
     async atualizar(aluno) {
-    const {uuid, nome, email, id} = aluno;
+    const { nome, email, id} = aluno;
     const banco = await this.sqlConnection();
-    await banco.run("UPDATE alunos SET uuid = ?, nome = ?, email = ? WHERE id = ?", uuid, nome, email, id )
+    await banco.run("UPDATE alunos SET nome = ?, email = ? WHERE id = ?", nome, email, id )
     }
 
     async listar() {
@@ -54,6 +54,13 @@ class Banco{
     const result = await banco.all("SELECT * FROM alunos")
     console.log(result)
 
+    return result
+    }
+
+    async buscar(id) {
+    const banco = await this.sqlConnection();
+    const result = await banco.all("SELECT * FROM alunos WHERE id = ?", id)
+    
     return result
     }
 

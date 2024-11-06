@@ -41,35 +41,34 @@ app.listen(3333, () =>{
     console.log("Servidor on")
 })
 
-app.delete("/alunos/:id", (request, response) =>{
+app.delete("/alunos/:id", async(request, response) =>{
+    const { id } = request.params
+
+    const pos = await banco.buscar(id)
+    console.log(pos)
+    if(pos <= 0)
+        return response.status(400).json({mensage: "Aluno não encontrado"})
+
     banco.remover(id)
-
-    //const pos = alunos.findIndex(aluno => aluno.uuid == uuid)
-    //if(pos < 0)
-        //return response.status(400).json({mensage: "Aluno não encontrado"})
-
-    //const aluno = alunos[pos]
-    //alunos.splice(pos, 1)
     return response.json({mensage: "Removido"})
 })
 
-app.put("/alunos/:id", (request, response) =>{
+app.put("/alunos/:id", async(request, response) =>{
     const {id} = request.params
-    const {nome, email} = request.body
+    const { nome, email} = request.body
 
-    //const pos = alunos.findIndex(aluno => aluno.uuid == uuid)
-
-    //if(pos < 0)
-        //return response.status(400).json({mensage: "Aluno não encontrado"})
+    const pos = await banco.buscar(id)
+    console.log(pos)
+    if(pos <= 0)
+        return response.status(400).json({mensage: "Aluno não encontrado"})
 
     const aluno ={
         id,
         nome,
         email
     }
-    //alunos[pos] = aluno
 
     banco.atualizar(aluno)
-    return response.json({mensage: "Atualizado"})
-
+    return response.json({mensage: "Aluno atualizado"})
+    //alunos[pos] = aluno
 })
