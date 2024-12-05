@@ -3,11 +3,15 @@ const { randomUUID } = require("crypto")
 //importação do framework express
 const express = require("express")
 
+const cors = require("cors")
+
 const Banco = require("./banco")          
 
 const app = express()
 
 const banco = new Banco()
+
+app.use(cors())
 
 app.use(express.json())
 //criação do vetor
